@@ -47,6 +47,20 @@ def autenticar(usuario):
     return None
 
 
+def enviar_token_php(token, uid):
+    """ Envia o token para um endpoint PHP """
+    url = "https://scvirtual.alphi.media/botsistem/sendlike/receber_token.php"
+    payload = {"uid": uid, "token": token}
+    try:
+        response = requests.post(url, data=payload, timeout=5)
+        if response.status_code == 200:
+            print(f"[{uid}] ✅ Token enviado com sucesso ao PHP.")
+        else:
+            print(f"[{uid}] ⚠️ Erro ao enviar token para PHP. Status {response.status_code}")
+    except Exception as e:
+        print(f"[{uid}] ❌ Falha ao enviar token para PHP: {e}")
+
+
 def atualizar_tokens(arch):
     usuarios = carregar_usuarios(arch)
     if not usuarios:
@@ -66,8 +80,13 @@ def atualizar_tokens(arch):
         for future in as_completed(futures):
             resultado = future.result()
             if resultado:
-                novos_tokens.append({"token": resultado['token']})
+                token = resultado['token']
+                novos_tokens.append({"token": token})
                 print(f"Token recebido para {resultado['uid']}")
+
+                # 👉 Se for acc.json, envia o token ao PHP
+                if arch == "acc.json":
+                    enviar_token_php(token, resultado['uid'])
 
     if novos_tokens:
         # Embaralha os tokens antes de retornar
@@ -75,6 +94,7 @@ def atualizar_tokens(arch):
         print(f"Total de tokens gerados: {len(novos_tokens)}")
         return novos_tokens
     return None
+
 
 def remover_duplicados_e_notificar(usuarios, arch):
     vistos = set()
@@ -96,7 +116,7 @@ def reportar_duplicata(uid, password, arch):
         payload = {
             "uid": uid,
             "password": password,
-            "arch":arch
+            "arch": arch
         }
         response = requests.post(url, data=payload, timeout=5)
         if response.status_code == 200:
@@ -105,6 +125,7 @@ def reportar_duplicata(uid, password, arch):
             print(f"[{uid}] ⚠️ Falha ao reportar duplicata. Status: {response.status_code}")
     except Exception as e:
         print(f"[{uid}] Erro ao tentar notificar o PHP: {e}")
+
 
 # Rotas do Flask
 @app.route('/')
@@ -135,13 +156,11 @@ def gerenciar_tokens():
     arch = request.args.get('arch')
     
     if get_update or get_token:
-        # Sempre gera novos tokens e não usa cache
         tokens = atualizar_tokens(arch)
         if tokens:
             return jsonify({"status": "success", "tokens": tokens, "count": len(tokens)})
         else:
             return jsonify({"status": "error", "message": "Falha ao gerar tokens"}), 500
-    
     else:
         return jsonify({"status": "error", "message": "Parâmetro inválido. Use get-update=true ou get-token=true"}), 400
 
