@@ -25,7 +25,7 @@ def autenticar(usuario):
     if not uid or not password:
         return None
 
-    url = f"https://jwt-maker-danger.vercel.app/token?uid={uid}&password={password}"
+    url = f"https://get-jwt.squareweb.app/get-token?uid={uid}&password={password}"
 
     for attempt in range(1, 4):  # Tenta até 3 vezes
         try:
@@ -146,5 +146,4 @@ def gerenciar_tokens():
         return jsonify({"status": "error", "message": "Parâmetro inválido. Use get-update=true ou get-token=true"}), 400
 
 if __name__ == '__main__':
-
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)
