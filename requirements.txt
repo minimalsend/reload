@@ -1,4 +1,10 @@
-flask==3.0.2
-requests==2.31.0
-concurrent-log-handler==0.9.24
+flask
+flask-cors
+flask-caching
+requests
+httpx
+pycryptodome
+colorama
+protobuf
+cachetools
 gunicorn==21.2.0
