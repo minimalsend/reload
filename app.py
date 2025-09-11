@@ -4,36 +4,6 @@ import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 import random
-from Crypto.Cipher import AES
-import binascii
-import my_pb2
-import output_pb2
-from colorama import init
-import warnings
-from urllib3.exceptions import InsecureRequestWarning
-from requests.exceptions import RequestException
-import logging
-import asyncio
-import httpx
-from io import BytesIO
-from collections import defaultdict
-from functools import wraps
-from flask import Flask, request, jsonify, send_file
-from flask_cors import CORS
-from cachetools import TTLCache
-from google.protobuf import json_format, message
-from google.protobuf.message import Message
-import base64
-from flask_caching import Cache
-from typing import Tuple, Optional
-from Crypto.Util.Padding import pad, unpad
-from datetime import datetime, timezone
-from colorama import init
-from urllib3.exceptions import InsecureRequestWarning
-from protobuf_decoder.protobuf_decoder import Parser
-from requests.exceptions import RequestException
-AES_KEY = b'Yg&tc%DEuh6%Zc^8'
-AES_IV = b'6oyZDr22E3ychjM%'
 app = Flask(__name__)
 
 # Funções auxiliares
@@ -185,6 +155,7 @@ def gerenciar_tokens():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
+
 
 
 
