@@ -72,7 +72,6 @@ def fetch_attversion():
         
         attversion = buscar_attversion(data)
         if attversion is not None:
-            print(f"attversion: {attversion}")
             return attversion
         else:
             print("Parâmetro 'attversion' não encontrado.")
@@ -145,8 +144,7 @@ def get_token(password, uid, max_retries=3):
         try:
             # Delay progressivo entre tentativas
             if attempt > 0:
-                wait_time = min((2 ** attempt) + random.uniform(0, 1), 10)  # Backoff exponencial com jitter
-                print(f"Tentativa {attempt + 1}/{max_retries}. Aguardando {wait_time:.2f} segundos...")
+                wait_time = min((2 ** attempt) + random.uniform(0, 1), 10)  
                 time.sleep(wait_time)
 
             # Faz a requisição
@@ -283,8 +281,7 @@ def get_single_response(uid: str, password: str) -> dict:
         response = requests.post(
             "https://loginbp.common.ggbluefox.com/MajorLogin",
             data=bytes.fromhex(edata),
-            headers=headers,
-            verify=False
+            headers=headers
         )
 
         if response.status_code == 200:
@@ -423,4 +420,5 @@ def gerenciar_tokens():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
+
 
