@@ -26,7 +26,6 @@ def autenticar(usuario):
     url = f"https://get-jwt.squareweb.app/get-token?uid={uid}&password={password}"
 
     for attempt in range(1, 4):  # Tenta até 3 vezes
-    for attempt in range(1, 4):
         try:
             response = requests.get(url, timeout=5)  # timeout menor para resposta mais rápida
             if response.status_code == 200:
@@ -35,21 +34,12 @@ def autenticar(usuario):
                     return {"uid": uid, "token": token}
                 else:
                     print(f"[{uid}] Tentativa {attempt}/3 - Nenhum token recebido.")
-            token = get_single_response(uid, password)
-
-            if token:  # se não for None ou vazio
-                return {"uid": uid, "token": token}
             else:
                 print(f"[{uid}] Tentativa {attempt}/3 - Status inválido: {response.status_code}")
         except requests.RequestException as e:
-                print(f"[{uid}] Tentativa {attempt}/3 - Nenhum token recebido.")
-
-        except Exception as e:
             print(f"[{uid}] Tentativa {attempt}/3 - Erro ao autenticar: {e}")
         
         time.sleep(0.2)  # Espera mínima para não sobrecarregar
-
-        time.sleep(0.2)
 
     print(f"[{uid}] ❌ Falha após 3 tentativas de autenticação.")
     return None
@@ -155,6 +145,7 @@ def gerenciar_tokens():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
+
 
 
 
