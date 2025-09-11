@@ -7,4 +7,6 @@ pycryptodome
 colorama
 protobuf
 cachetools
+protobuf-decoder
 gunicorn==21.2.0
+
