@@ -23,7 +23,7 @@ def autenticar(usuario):
     if not uid or not password:
         return None
 
-    url = f"https://jwt-u2uf.vercel.app/token?uid={uid}&password={password}"
+    url = f"https://fd-jwt-ob50.vercel.app/token?uid={uid}&password={password}"
 
     for attempt in range(1, 4):  # Tenta até 3 vezes
         try:
@@ -145,6 +145,7 @@ def gerenciar_tokens():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
+
 
 
 
