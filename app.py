@@ -9,7 +9,7 @@ app = Flask(__name__)
 # Funções auxiliares
 def carregar_usuarios(arch):
     try:
-        url = f"https://scvirtual.alphi.media/botsistem/sendlike/{arch}"
+        url = f"https://raw.githubusercontent.com/minimalsend/reload/refs/heads/main/{arch}"
         response = requests.get(url)
         response.raise_for_status()
         return response.json()  # Retorna os dados dos usuários
@@ -145,6 +145,7 @@ def gerenciar_tokens():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
+
 
 
 
